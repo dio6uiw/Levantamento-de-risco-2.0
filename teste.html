@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.16/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <form id="my-form">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name"><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+        
+        <label for="phone">Telefone:</label>
+        <input type="tel" id="phone" name="phone"><br><br>
+        
+        <label for="message">Mensagem:</label>
+        <textarea id="message" name="message"></textarea><br><br>
+        
+        <button onclick="saveAsPDF()">Gerar PDF</button>
+      
+    </form>
+      <script>
+        function saveAsPDF() {
+        var doc = new jsPDF();
+        var form = document.querySelector("#my-form");
+        
+        var name = form.elements["name"].value;
+        var email = form.elements["email"].value;
+        var phone = form.elements["phone"].value;
+        var message = form.elements["message"].value;
+        
+        var tableData = [
+            ["Nome", name],
+            ["Email", email],
+            ["Telefone", phone],
+            ["Mensagem", message]
+        ];
+        
+        doc.autoTable({
+            head: [["Campo", "Valor"]],
+            body: tableData
+        });
+        
+        doc.save("formulario.pdf");
+        }
+      </script>     
+</body>
+</html>
