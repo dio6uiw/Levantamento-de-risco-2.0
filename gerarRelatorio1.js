@@ -8,13 +8,10 @@ function adicionarCampo() {
 	// Cria elementos HTML para o novo campo
 	var novoCampo = document.createElement("div");
 	novoCampo.innerHTML = `
-		<label>Nome:</label>
-		<input type="text" name="nome${contadorCampos}" id="nome${contadorCampos}">
-		<label>Preço:</label>
-		<input type="number" name="preco${contadorCampos}" id="preco${contadorCampos}">
-		<label>Quantidade:</label>
-		<input type="number" name="quantidade${contadorCampos}" id="quantidade${contadorCampos}">
-	`;
+    <br>
+    <input type="text" name="nome${contadorCampos}" id="nome${contadorCampos}" placeholder="Função"><br><br>
+	<input type="text" name="preco${contadorCampos}" id="preco${contadorCampos}" placeholder="Atividade"><br><br>
+    `;
 
 	// Adiciona o novo campo à div de campos
 	var divCampos = document.getElementById("campos");
@@ -269,13 +266,6 @@ function gerarPDF() {
 
     doc.text("Observações: " + document.getElementById("obsriscos").value, 20, 260);
 
-    //controle de EPI
-    if (controleEPI === 'controlesim') {
-        doc.text('Existe controle de fichas de EPI', 20, 280);
-    } else {
-        doc.text('Não existe controle de fichas de EPI', 20, 280);
-    }
-
     doc.addPage();
 
     doc.line(linhaInicio, linhaPosicao, linhaFim, linhaPosicao);
@@ -283,37 +273,35 @@ function gerarPDF() {
     doc.line(linhaInicio, linhaPosicao, linhaInicio, doc.internal.pageSize.height - linhaPosicao);
     doc.line(linhaFim, linhaPosicao, linhaFim, doc.internal.pageSize.height - linhaPosicao);     
 
+    //controle de EPI
+    if (controleEPI === 'controlesim') {
+        doc.text('Existe controle de fichas de EPI', 20, 20);
+    } else {
+        doc.text('Não existe controle de fichas de EPI', 20, 20);
+    }
+
     //Rota de fuga
     if (rotadefuga === 'rotadefugasim') {
-        doc.text('Existe rota fuga', 20, 20);
+        doc.text('Existe rota fuga', 20, 30);
     } else {
-        doc.text('Não existe rota fuga', 20, 20);
+        doc.text('Não existe rota fuga', 20, 30);
     }
     
     //iluminação de emergencia
     if (iluminacaoemerg === 'iluminacaoemergsim') {
-        doc.text('Existe iluminação de emergência', 20, 30);
+        doc.text('Existe iluminação de emergência', 20, 40);
     } else {
-        doc.text('Não existe iluminação de emergência', 20, 30);
+        doc.text('Não existe iluminação de emergência', 20, 40);
     }
 
     //Extintores
     if (extintores === 'extintoressim') {
-        doc.text('Existe extintores', 20, 40);
+        doc.text('Existe extintores', 20, 50);
     } else {
-        doc.text('Não existe extintores', 20, 40);
+        doc.text('Não existe extintores', 20, 50);
     }
 
-    // Adiciona os campos preenchidos ao PDF
-	for (var i = 1; i < contadorCampos; i++) {
-		var nome = document.getElementById("nome" + i).value;
-		var preco = parseFloat(document.getElementById("preco" + i).value);
-		var quantidade = parseInt(document.getElementById("quantidade" + i).value);
-
-		if (!isNaN(preco) && !isNaN(quantidade)) {
-			doc.text(nome + " - R$ " + preco.toFixed(2) + " x " + quantidade + " unidades", 10, i * 10);
-		}
-	}
+    
 
     // Salvar o PDF
     doc.save('levantamento.pdf');
